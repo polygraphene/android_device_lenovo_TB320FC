@@ -28,5 +28,6 @@ odm                 /odm         ext4        ro,barrier=1,discard               
 /persist_image      emmc         /dev/block/bootdevice/by-name/persist           flags=display="Persist Image";backup=1;flashimg=1
 
 # SD Card & USB-OTG Points
-/external_sd        auto         /dev/block/mmcblk0p1  /dev/block/mmcblk0        flags=display="MicroSD Card";storage;wipeingui;removable
-/usb_otg            auto         /dev/block/sdg1       /dev/block/sdg            flags=display="USB-OTG";storage;wipeingui;removable
+/external_sd        auto         /dev/block/mmcblk1p1  /dev/block/mmcblk1        flags=display="MicroSD Card";storage;wipeingui;removable
+/usb_otg            auto         /dev/block/sdi1       /dev/block/sdi            flags=display="USB-OTG 1";storage;wipeingui;removable
+/usb_otg_2            auto         /dev/block/sdj1       /dev/block/sdj            flags=display="USB-OTG 2";storage;wipeingui;removable
