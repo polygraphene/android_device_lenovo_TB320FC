@@ -13,35 +13,35 @@ Blocking checks
 - [x] ADB
 
 Medium checks
-- [ ] update.zip sideload
+- [ ] update.zip sideload  
   Not tested
 - [x] UI colors (red/blue inversions)
 - [x] Screen goes off and on
-- [ ] F2FS/EXT4 Support, exFAT/NTFS where supported
+- [ ] F2FS/EXT4 Support, exFAT/NTFS where supported  
   Not tested
 - [x] all important partitions listed in mount/backup lists
 - [x] backup/restore to/from external (USB-OTG) storage (not supported by the device)
-- [ ] backup/restore to/from adb (https://gerrit.omnirom.org/#/c/15943/)
+- [ ] backup/restore to/from adb (https://gerrit.omnirom.org/#/c/15943/)  
   Not tested
 - [x] decrypt /data
 - [x] Correct date
 
 Minor checks
-- [ ] MTP export
+- [ ] MTP export  
   Unstable
 - [x] reboot to bootloader
 - [x] reboot to recovery
 - [x] poweroff
 - [x] battery level
 - [ ] temperature
-- [ ] encrypted backups
+- [ ] encrypted backups  
   Not tested
 - [x] input devices via USB (USB-OTG) - keyboard, mouse and disks (not supported by the device)
 - [ ] USB mass storage export
 - [x] set brightness
 - [ ] vibrate
 - [x] screenshot
-- [ ] partition SD card
+- [ ] partition SD card  
   Not tested
 
 Unchecked items are not working now.
@@ -91,7 +91,7 @@ mkdir -p .repo/local_manifests
 repo sync -j$(nproc)
 ```
 
-4. Apply patches
+4. Apply patches  
 This step is required as of October 2024. If [those patches](https://gerrit.twrp.me/q/topic:%22drm-fix-new-topology%22) are already merged in official repository, skip it.
 Those patches solve a display issue that the bottom of display are grayed out.
 ```
