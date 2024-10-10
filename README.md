@@ -92,7 +92,7 @@ repo sync -j$(nproc)
 ```
 
 4. Apply patches
-This step is required as of October 2024. If [https://gerrit.twrp.me/q/topic:%22drm-fix-new-topology%22](those patches) are already merged in official repository, skip it.
+This step is required as of October 2024. If [those patches](https://gerrit.twrp.me/q/topic:%22drm-fix-new-topology%22) are already merged in official repository, skip it.
 Those patches solve a display issue that the bottom of display are grayed out.
 ```
 cd bootable/recovery
