@@ -1,22 +1,59 @@
 # TWRP device tree for Lenovo Legion Y700 (2023) (TB320FC)
 
+8.8 inch high-end tablet released on 2023.
+
 ## Supported features
 
-- [x] /data FBE Decryption
-- [x] adb on primary USB port (long edge)
+Blocking checks
+- [x] Correct screen/recovery size
+- [x] Working Touch, screen
+- [x] Backup to internal/microSD
+- [x] Restore from internal/microSD
+- [x] reboot to system
+- [x] ADB
 
-## WIP features
+Medium checks
+- [ ] update.zip sideload
+  Not tested
+- [x] UI colors (red/blue inversions)
+- [x] Screen goes off and on
+- [ ] F2FS/EXT4 Support, exFAT/NTFS where supported
+  Not tested
+- [x] all important partitions listed in mount/backup lists
+- [x] backup/restore to/from external (USB-OTG) storage (not supported by the device)
+- [ ] backup/restore to/from adb (https://gerrit.omnirom.org/#/c/15943/)
+  Not tested
+- [x] decrypt /data
+- [x] Correct date
 
-- [ ] MTP
-- [ ] Secondary USB port (short edge)
+Minor checks
+- [ ] MTP export
+  Unstable
+- [x] reboot to bootloader
+- [x] reboot to recovery
+- [x] poweroff
+- [x] battery level
+- [ ] temperature
+- [ ] encrypted backups
+  Not tested
+- [x] input devices via USB (USB-OTG) - keyboard, mouse and disks (not supported by the device)
+- [ ] USB mass storage export
+- [x] set brightness
+- [ ] vibrate
+- [x] screenshot
+- [ ] partition SD card
+  Not tested
+
+Unchecked items are not working now.
+If USB is not working, try to Enable/Disable MTP on Mount menu.
 
 ## Partition layout
 
 - A/B
 - Has super partition
-- dedicated recovery partition (with A/B)
-- recovery doesn't include kernel (Use kernel from boot.img)
-- no init\_boot partition
+- Has dedicated recovery partition (with A/B)
+- Recovery doesn't include kernel (Use kernel from boot.img)
+- No init\_boot partition
 
 ## Device specifications
 
