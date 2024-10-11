@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - '*'
+  workflow_dispatch:
 
 env:
   MANIFEST_URL: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp
@@ -128,7 +129,8 @@ jobs:
         echo "TWRP_VERSION=$TWRP_VERSION" >> $GITHUB_OUTPUT
         echo "OUTPUT_FILEBASE=$OUTPUT_FILEBASE" >> $GITHUB_OUTPUT
         echo "GITHUB_REF_TAG=$GITHUB_REF_TAG" >> $GITHUB_OUTPUT
-
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+      
     - name: Building recovery
       run: |
         source build/envsetup.sh
