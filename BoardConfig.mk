@@ -136,6 +136,7 @@ TW_DEFAULT_BRIGHTNESS := 100
 TW_HAS_EDL_MODE := true
 TW_SKIP_ADDITIONAL_FSTAB := true
 TW_NO_HAPTICS := true
+TW_CUSTOM_CPU_TEMP_PATH := /sys/devices/virtual/thermal/thermal_zone41/temp
 
 # TWRP Debug Flags
 TARGET_USES_LOGD := true

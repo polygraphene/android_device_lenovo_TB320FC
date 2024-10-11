@@ -33,7 +33,7 @@ Minor checks
 - [x] reboot to recovery
 - [x] poweroff
 - [x] battery level
-- [ ] temperature
+- [x] temperature
 - [ ] encrypted backups  
   Not tested
 - [x] input devices via USB (USB-OTG) - keyboard, mouse and disks (not supported by the device)
