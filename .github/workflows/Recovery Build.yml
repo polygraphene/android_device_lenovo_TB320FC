@@ -124,8 +124,10 @@ jobs:
       run: |
         export TWRP_VERSION=$(sed -nr 's/#define TW_MAIN_VERSION_STR\s+"(.*)"/\1/p' bootable/recovery/variables.h)
         export OUTPUT_FILEBASE=twrp-${TWRP_VERSION}-${DEVICE_NAME}-${GITHUB_REF#refs/tags/}
+        export GITHUB_REF_TAG=${GITHUB_REF#refs/tags/}
         echo "TWRP_VERSION=$TWRP_VERSION" >> $GITHUB_OUTPUT
         echo "OUTPUT_FILEBASE=$OUTPUT_FILEBASE" >> $GITHUB_OUTPUT
+        echo "GITHUB_REF_TAG=$GITHUB_REF_TAG" >> $GITHUB_OUTPUT
 
     - name: Building recovery
       run: |
@@ -152,18 +154,18 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         files: | 
-          workspace/out/target/product/${DEVICE_NAME}/${{ steps.version.outputs.OUTPUT_FILEBASE }}-portrait.img
-          workspace/out/target/product/${DEVICE_NAME}/${{ steps.version.outputs.OUTPUT_FILEBASE }}-landscape.img
-          workspace/out/target/product/${DEVICE_NAME}/*.zip
-          workspace/out/target/product/${DEVICE_NAME}/*vendor*.img
-        name: ${{ steps.version.outputs.TWRP_VERSION }} ${DEVICE_NAME} ${GITHUB_REF#refs/tags/}
+          workspace/out/target/product/${{ env.DEVICE_NAME }}/${{ steps.version.outputs.OUTPUT_FILEBASE }}-portrait.img
+          workspace/out/target/product/${{ env.DEVICE_NAME }}/${{ steps.version.outputs.OUTPUT_FILEBASE }}-landscape.img
+          workspace/out/target/product/${{ env.DEVICE_NAME }}/*.zip
+          workspace/out/target/product/${{ env.DEVICE_NAME }}/*vendor*.img
+        name: ${{ steps.version.outputs.TWRP_VERSION }} ${{ env.DEVICE_NAME }} ${{ steps.version.outputs.OUTPUT_FILEBASE }}
         body: |
-          This is a TWRP build for ${DEVICE_PRODUCT_NAME} (${DEVICE_NAME}).
+          This is a TWRP build for ${{ env.DEVICE_PRODUCT_NAME }} (${{ env.DEVICE_NAME }}).
           Choose your preferred theme between portrait and landscape.
           
           TWRP version: ${{ steps.version.outputs.TWRP_VERSION }}
-          Manifest: ${MANIFEST_BRANCH}
-          Device: ${DEVICE_NAME}
+          Manifest: ${{ env.MANIFEST_BRANCH }}
+          Device: ${{ env.DEVICE_NAME }}
           Output: ${{ steps.version.outputs.OUTPUT_FILEBASE }}-portrait.img
           Output: ${{ steps.version.outputs.OUTPUT_FILEBASE }}-landscape.img
       env:
