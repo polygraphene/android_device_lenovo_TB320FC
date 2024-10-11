@@ -141,12 +141,13 @@ jobs:
         if_true: twrp
         if_false: omni
 
-    - name: Sync Device Dependencies
-      run: |
-        bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/${{ steps.buildtree.outputs.value }}.dependencies
-        repo sync -j$(nproc --all)
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
-      continue-on-error: true
+# Not needed for my device. The dependencie (device/qcom/twrp-common) is already in .repo/manifests/twrp-default.xml
+#    - name: Sync Device Dependencies
+#      run: |
+#        bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/${{ steps.buildtree.outputs.value }}.dependencies
+#        repo sync -j$(nproc --all)
+#      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+#      continue-on-error: true
 
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
