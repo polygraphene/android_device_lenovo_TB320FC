@@ -4,45 +4,17 @@ on:
   push:
     tags:
       - '*'
-      
-  workflow_dispatch:
-    inputs:
-      MANIFEST_URL:
-        description: 'MANIFEST_URL (if want to use SSH keys, use git@github.com:XXXXX)'
-        required: true
-        default: 'https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp'
-      MANIFEST_BRANCH:
-        description: 'MANIFEST_BRANCH'
-        required: true
-        default: 'twrp-12.1'
-      DEVICE_TREE_URL:
-        description: 'DEVICE_TREE_URL'
-        required: true
-        default: 'https://github.com/polygraphene/android_device_lenovo_TB320FC'
-      DEVICE_TREE_BRANCH:
-        description: 'DEVICE_TREE_BRANCH'
-        required: true
-        default: 'android-12.1'
-      DEVICE_PATH:
-        description: 'DEVICE_PATH'
-        required: true
-        default: 'device/lenovo/TB320FC'
-      DEVICE_NAME:
-        description: 'DEVICE_NAME'
-        required: true
-        default: 'TB320FC'
-      DEVICE_PRODUCT_NAME:
-        description: 'DEVICE_PRODUCT_NAME'
-        required: true
-        default: 'Lenovo Y700 2023'
-      MAKEFILE_NAME:
-        description: 'MAKEFILE_NAME'
-        required: true
-        default: 'twrp_TB320FC'
-      BUILD_TARGET:
-        description: 'BUILD_TARGET'
-        required: true
-        default: 'recovery'
+
+env:
+  MANIFEST_URL: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp
+  MANIFEST_BRANCH: twrp-12.1
+  DEVICE_TREE_URL: https://github.com/polygraphene/android_device_lenovo_TB320FC
+  DEVICE_TREE_BRANCH: android-12.1
+  DEVICE_PATH: device/lenovo/TB320FC
+  DEVICE_NAME: TB320FC
+  DEVICE_PRODUCT_NAME: Lenovo Y700 2023
+  MAKEFILE_NAME: twrp_TB320FC
+  BUILD_TARGET: recovery
 
 jobs:
   build:
@@ -54,14 +26,14 @@ jobs:
     - name: Display Run Parameters
       run: |
         echo "::group::User Environment Variables"
-        echo "Manifest URL: ${{ github.event.inputs.MANIFEST_URL }}"
-        echo "Manifest Branch: ${{ github.event.inputs.MANIFEST_BRANCH }}"
-        echo "Device Tree URL: ${{ github.event.inputs.DEVICE_TREE_URL }}"
-        echo "Device Tree Branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}"
-        echo "Device Path: ${{ github.event.inputs.DEVICE_PATH }}"
-        echo "Device Name: ${{ github.event.inputs.DEVICE_NAME }}"
-        echo "Makefile Name: ${{ github.event.inputs.MAKEFILE_NAME }}"
-        echo "Build Target: ${{ github.event.inputs.BUILD_TARGET }}.img"
+        echo "Manifest URL: ${MANIFEST_URL}"
+        echo "Manifest Branch: ${MANIFEST_BRANCH}"
+        echo "Device Tree URL: ${DEVICE_TREE_URL}"
+        echo "Device Tree Branch: ${DEVICE_TREE_BRANCH}"
+        echo "Device Path: ${DEVICE_PATH}"
+        echo "Device Name: ${DEVICE_NAME}"
+        echo "Makefile Name: ${MAKEFILE_NAME}"
+        echo "Build Target: ${BUILD_TARGET}.img"
         echo "::endgroup::"
  
     # You might want to Checkout your repo first, but not mandatory
@@ -107,7 +79,7 @@ jobs:
         echo "workspace-folder=$(pwd)" >> $GITHUB_OUTPUT
         git config --global user.name "polygraphene"
         git config --global user.email "polygraphene@gmail.com"
-        repo init --depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
+        repo init --depth=1 -u ${MANIFEST_URL} -b ${MANIFEST_BRANCH}
       id: pwd
           
     - name: Repo Sync
@@ -123,7 +95,7 @@ jobs:
 
     - name: Clone device tree
       run: |
-        git clone ${{ github.event.inputs.DEVICE_TREE_URL }} -b ${{ github.event.inputs.DEVICE_TREE_BRANCH }} ./${{ github.event.inputs.DEVICE_PATH }}
+        git clone ${DEVICE_TREE_URL} -b ${DEVICE_TREE_BRANCH} ./${DEVICE_PATH}
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
     - name: Check Build Tree
@@ -137,7 +109,7 @@ jobs:
 # Not needed for my device. The dependency (device/qcom/twrp-common) is already in .repo/manifests/twrp-default.xml
 #    - name: Sync Device Dependencies
 #      run: |
-#        bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/${{ steps.buildtree.outputs.value }}.dependencies
+#        bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${DEVICE_PATH}/${{ steps.buildtree.outputs.value }}.dependencies
 #        repo sync -j$(nproc --all)
 #      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 #      continue-on-error: true
@@ -151,7 +123,7 @@ jobs:
       id: version
       run: |
         export TWRP_VERSION=$(sed -nr 's/#define TW_MAIN_VERSION_STR\s+"(.*)"/\1/p' bootable/recovery/variables.h)
-        export OUTPUT_FILEBASE=twrp-${TWRP_VERSION}-${{ github.event.inputs.DEVICE_NAME }}-${GITHUB_REF#refs/tags/}
+        export OUTPUT_FILEBASE=twrp-${TWRP_VERSION}-${DEVICE_NAME}-${GITHUB_REF#refs/tags/}
         echo "TWRP_VERSION=$TWRP_VERSION" >> $GITHUB_OUTPUT
         echo "OUTPUT_FILEBASE=$OUTPUT_FILEBASE" >> $GITHUB_OUTPUT
 
@@ -159,9 +131,9 @@ jobs:
       run: |
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
-        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng && make clean && make ${{ github.event.inputs.BUILD_TARGET }}image -j$(nproc --all)
+        lunch ${MAKEFILE_NAME}-eng && make clean && make ${BUILD_TARGET}image -j$(nproc --all)
 
-        cp $OUT/${{ github.event.inputs.BUILD_TARGET }}.img $OUT/${{ steps.version.outputs.OUTPUT_FILEBASE }}-portrait.img
+        cp $OUT/${BUILD_TARGET}.img $OUT/${{ steps.version.outputs.OUTPUT_FILEBASE }}-portrait.img
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
     # Do light-weight clean up, then build landscape variant
@@ -169,30 +141,31 @@ jobs:
       run: |
         source build/envsetup.sh
         export ALLOW_MISSING_DEPENDENCIES=true
-        lunch ${{ github.event.inputs.MAKEFILE_NAME }}-eng
+        lunch ${MAKEFILE_NAME}-eng
         rm -r out/target/product/TB320FC/ramdisk-recovery.* out/target/product/TB320FC/recovery.img out/target/product/TB320FC/recovery/
-        make ${{ github.event.inputs.BUILD_TARGET }}image USE_LANDSCAPE=true -j$(nproc --all)
+        make ${BUILD_TARGET}image USE_LANDSCAPE=true -j$(nproc --all)
         
-        cp $OUT/${{ github.event.inputs.BUILD_TARGET }}.img $OUT/${{ steps.version.outputs.OUTPUT_FILEBASE }}-landscape.img
+        cp $OUT/${BUILD_TARGET}.img $OUT/${{ steps.version.outputs.OUTPUT_FILEBASE }}-landscape.img
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
       
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
       with:
         files: | 
-          workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ steps.version.outputs.OUTPUT_FILEBASE }}-portrait.img
-          workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ steps.version.outputs.OUTPUT_FILEBASE }}-landscape.img
-          workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/*.zip
-          workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/*vendor*.img
-        name: ${{ steps.version.outputs.TWRP_VERSION }} ${{ github.event.inputs.DEVICE_NAME }} ${GITHUB_REF#refs/tags/}
+          workspace/out/target/product/${DEVICE_NAME}/${{ steps.version.outputs.OUTPUT_FILEBASE }}-portrait.img
+          workspace/out/target/product/${DEVICE_NAME}/${{ steps.version.outputs.OUTPUT_FILEBASE }}-landscape.img
+          workspace/out/target/product/${DEVICE_NAME}/*.zip
+          workspace/out/target/product/${DEVICE_NAME}/*vendor*.img
+        name: ${{ steps.version.outputs.TWRP_VERSION }} ${DEVICE_NAME} ${GITHUB_REF#refs/tags/}
         body: |
-          This is a TWRP build for ${{ github.event.inputs.DEVICE_PRODUCT_NAME }} (${{ github.event.inputs.DEVICE_NAME }}).
+          This is a TWRP build for ${DEVICE_PRODUCT_NAME} (${DEVICE_NAME}).
           Choose your preferred theme between portrait and landscape.
           
           TWRP version: ${{ steps.version.outputs.TWRP_VERSION }}
-          Manifest: ${{ github.event.inputs.MANIFEST_BRANCH }}
-          Device: ${{ github.event.inputs.DEVICE_NAME }}
+          Manifest: ${MANIFEST_BRANCH}
+          Device: ${DEVICE_NAME}
           Output: ${{ steps.version.outputs.OUTPUT_FILEBASE }}-portrait.img
           Output: ${{ steps.version.outputs.OUTPUT_FILEBASE }}-landscape.img
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
