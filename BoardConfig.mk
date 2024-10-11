@@ -10,6 +10,8 @@ DEVICE_PATH := device/lenovo/TB320FC
 # For building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
 
+include $(DEVICE_PATH)/device-version.mk
+
 # A/B
 AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
