@@ -1,6 +1,27 @@
 # TWRP device tree for Lenovo Legion Y700 (2023) (TB320FC)
 
-8.8 inch high-end tablet released on 2023.
+8.8 inch a high-end tablet released on 2023.
+
+## Flash instruction
+  Make sure your device is a CN/Global/JP version of Y700 (2023) before proceeding.
+
+1. Unlock bootloader
+   - For detailed instructions, please see the following article.  
+   [https://xdaforums.com/t/y700-2023-regional-rom-flashing-guide.4685115/](https://xdaforums.com/t/y700-2023-regional-rom-flashing-guide.4685115/)
+3. Obtain stock vbmeta.img
+   - Any version of vbmeta.img can be used.
+4. Disable AVB.
+   - Prepare fastboot drivers and platform-tools then, run the following command.  
+   ```fastboot --disable-verity --disable-verification flash vbmeta vbmeta.img```
+5. Download recovery image from the [release](https://github.com/polygraphene/android_device_lenovo_TB320FC/releases)
+6. Flash recovery
+   - ```fastboot flash recovery twrp-downloaded-file-name.img```
+7. Reboot into recovery
+   - ```fastboot reboot recovery```
+
+## When not boot
+  - Make sure disabled AVB by running step 4.
+  - Try to flash boot or verndor_boot partition from stock ROM.
 
 ## Supported features
 
@@ -52,6 +73,8 @@ Unchecked items are not working now.
 - Has dedicated recovery partition (with A/B)
 - Recovery doesn't include kernel (Use kernel from boot.img)
 - No init\_boot partition
+- See the seciton `Launch or upgrade to Android 12, dedicated and A/B recovery (dedicated ramdisk)` from  
+  [https://source.android.com/docs/core/architecture/partitions/generic-boot](https://source.android.com/docs/core/architecture/partitions/generic-boot)
 
 ## Device specifications
 
@@ -90,8 +113,8 @@ repo sync -j$(nproc)
 ```
 
 4. Apply patches  
-This step is required as of October 2024. If [those patches](https://gerrit.twrp.me/q/topic:%22drm-fix-new-topology%22) are already merged in official repository, skip it.
-Those patches solve a display issue that the bottom of display are grayed out.
+This step is required as of October 2024. Skip it if [those patches](https://gerrit.twrp.me/q/topic:%22drm-fix-new-topology%22) are merged in the official repository.
+Those patches solve a problem with the bottom of the screen not showing properly.
 ```
 cd bootable/recovery
 git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/83/7683/1 && git checkout FETCH_HEAD
@@ -104,4 +127,4 @@ lunch twrp_TB320FC-eng
 mka -j$(nproc) recoveryimage
 ```
 
-After the build has finished, you can find the recovery image at $OUT/recovery.img and flash it with `fastboot flash recovery` while the tablet is in bootloader mode.
+After the build has finished, you can find the recovery image at out/target/product/TB320FC/recovery.img.
