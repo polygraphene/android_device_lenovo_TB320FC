@@ -27,8 +27,7 @@ Medium checks
 - [x] Correct date
 
 Minor checks
-- [ ] MTP export  
-  Unstable
+- [x] MTP export  
 - [x] reboot to bootloader
 - [x] reboot to recovery
 - [x] poweroff
@@ -45,7 +44,6 @@ Minor checks
   Not tested
 
 Unchecked items are not working now.
-If USB is not working, try to Enable/Disable MTP on Mount menu.
 
 ## Partition layout
 
