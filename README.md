@@ -11,13 +11,21 @@
 3. Obtain stock vbmeta.img
    - Any version of vbmeta.img can be used.
 4. Disable AVB.
-   - Prepare fastboot drivers and platform-tools then, run the following command.  
-   ```fastboot --disable-verity --disable-verification flash vbmeta vbmeta.img```
+   - Prepare fastboot drivers and platform-tools then, run the following command.
+   ```sh
+   fastboot --disable-verity --disable-verification flash vbmeta vbmeta.img
+   ```
 5. Download recovery image from the [release](https://github.com/polygraphene/android_device_lenovo_TB320FC/releases)
 6. Flash recovery
-   - ```fastboot flash recovery twrp-downloaded-file-name.img```
-7. Reboot into recovery
-   - ```fastboot reboot recovery```
+   - Run the following command.
+   ```sh
+   fastboot flash recovery twrp-downloaded-file-name.img
+   ```
+8. Reboot into recovery
+   - Run the following command.
+   ```sh
+   fastboot reboot recovery
+   ```
 
 ## When not boot
   - Make sure disabled AVB by running step 4.
@@ -92,7 +100,7 @@ Latest Android Version | ZUI 16 (Android 14)
 ## Build instructions
 
 1. Initialize TWRP source
-```
+```sh
 mkdir twrp-12.1
 cd twrp-12.1
 repo init --depth=1 -u https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp.git -b twrp-12.1
@@ -100,7 +108,7 @@ mkdir -p .repo/local_manifests
 ```
 
 2. Add this to `.repo/local_manifests/TB320FC.xml`
-```
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
 	<project name="polygraphene/android_device_lenovo_TB320FC" path="device/lenovo/TB320FC" remote="github" revision="android-12.1"/>
@@ -108,20 +116,20 @@ mkdir -p .repo/local_manifests
 ```
 
 3. Start downloading TWRP source
-```
+```sh
 repo sync -j$(nproc)
 ```
 
 4. Apply patches  
 This step is required as of October 2024. Skip it if [those patches](https://gerrit.twrp.me/q/topic:%22drm-fix-new-topology%22) are merged in the official repository.
 Those patches solve a problem with the bottom of the screen not showing properly.
-```
+```sh
 cd bootable/recovery
 git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/83/7683/1 && git checkout FETCH_HEAD
 ```
 
 5. Build TWRP
-```
+```sh
 source build/envsetup.sh
 lunch twrp_TB320FC-eng
 mka -j$(nproc) recoveryimage
