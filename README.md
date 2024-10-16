@@ -8,27 +8,27 @@
 1. Unlock bootloader
    - For detailed instructions, please see the following article.  
    [https://xdaforums.com/t/y700-2023-regional-rom-flashing-guide.4685115/](https://xdaforums.com/t/y700-2023-regional-rom-flashing-guide.4685115/)
-3. Obtain stock vbmeta.img
+2. Obtain stock vbmeta.img
    - Any version of vbmeta.img can be used.
-4. Disable AVB.
+3. Disable AVB.
    - Prepare fastboot drivers and platform-tools then, run the following command.
    ```sh
    fastboot --disable-verity --disable-verification flash vbmeta vbmeta.img
    ```
-5. Download recovery image from the [release](https://github.com/polygraphene/android_device_lenovo_TB320FC/releases)
-6. Flash recovery
+4. Download recovery image from the [release](https://github.com/polygraphene/android_device_lenovo_TB320FC/releases)
+5. Flash recovery
    - Run the following command.
    ```sh
    fastboot flash recovery twrp-downloaded-file-name.img
    ```
-8. Reboot into recovery
+6. Reboot into recovery
    - Run the following command.
    ```sh
    fastboot reboot recovery
    ```
 
 ## When not boot
-  - Make sure disabled AVB by running step 4.
+  - Make sure AVB is disabled by step 3.
   - Try to flash boot or verndor_boot partition from stock ROM.
 
 ## Supported features
