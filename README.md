@@ -1,5 +1,4 @@
 # TWRP device tree for Lenovo Legion Y700 (2023) (TB320FC)
-Originally tree: https://github.com/polygraphene/android_device_lenovo_TB320FC
 
 8.8 inch a high-end tablet released on 2023.
 
@@ -16,7 +15,7 @@ Originally tree: https://github.com/polygraphene/android_device_lenovo_TB320FC
    ```sh
    fastboot --disable-verity --disable-verification flash vbmeta vbmeta.img
    ```
-4. Download recovery image from the [release](https://github.com/lddnsk/android_device_lenovo_TB320FC/releases)
+4. Download recovery image from the [release](https://github.com/polygraphene/android_device_lenovo_TB320FC/releases)
 5. Flash recovery
    - Run the following command.
    ```sh
@@ -30,45 +29,47 @@ Originally tree: https://github.com/polygraphene/android_device_lenovo_TB320FC
 
 ## When not boot
   - Make sure AVB is disabled by step 3.
-  - Try to flash boot or vendor_boot partition from stock ROM.
+  - Try to flash boot or verndor_boot partition from stock ROM.
 
 ## Supported features
 
 Blocking checks
 - [x] Correct screen/recovery size
 - [x] Working Touch, screen
-- [x] Backup/Restore to/from internal/microSD and external (USB-OTG) storage (not supported by the device)
-- [x] all important partitions listed in mount/backup lists
+- [x] Backup to internal/microSD
+- [x] Restore from internal/microSD
 - [x] reboot to system
+- [x] ADB
+
+Medium checks
+- [ ] update.zip sideload  
+  Not tested
+- [x] UI colors (red/blue inversions)
+- [x] Screen goes off and on
+- [ ] F2FS/EXT4 Support, exFAT/NTFS where supported  
+  Not tested
+- [x] all important partitions listed in mount/backup lists
+- [x] backup/restore to/from external (USB-OTG) storage (not supported by the device)
+- [ ] backup/restore to/from adb (https://gerrit.omnirom.org/#/c/15943/)  
+  Not tested
+- [x] decrypt /data
+- [x] Correct date
+
+Minor checks
+- [x] MTP export  
 - [x] reboot to bootloader
 - [x] reboot to recovery
 - [x] poweroff
-- [x] ADB
-- [x] MTP export
-- [x] USB mass storage export
-- [x] input devices via USB (USB-OTG) - keyboard, mouse and disks (not supported by the device)
 - [x] battery level
 - [x] temperature
-- [x] Screen goes off and on
+- [ ] encrypted backups  
+  Not tested
+- [x] input devices via USB (USB-OTG) - keyboard, mouse and disks (not supported by the device)
+- [ ] USB mass storage export
 - [x] set brightness
-- [x] screenshot
-- [x] Correct date
-
-Medium checks
-- [ ] update.zip sideload
-  Not tested
-- [x] UI colors (red/blue inversions)
-- [ ] F2FS/EXT4 Support, exFAT/NTFS where supported  
-  Not tested
-- [ ] backup/restore to/from adb (https://gerrit.omnirom.org/#/c/15943/)
-  Not tested
-- [x] decrypt /data
-
-Minor checks
-- [ ] encrypted backups
-  Not tested
 - [ ] vibrate
-- [ ] partition SD card
+- [x] screenshot
+- [ ] partition SD card  
   Not tested
 
 Unchecked items are not working now.
@@ -110,7 +111,7 @@ mkdir -p .repo/local_manifests
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
-	<project name="lddnsk/android_device_lenovo_TB320FC" path="device/lenovo/TB320FC" remote="github" revision="android-12.1"/>
+	<project name="polygraphene/android_device_lenovo_TB320FC" path="device/lenovo/TB320FC" remote="github" revision="android-12.1"/>
 </manifest>
 ```
 

@@ -26,63 +26,45 @@
 #
 
 on init
-	mkdir /config
-	mount configfs none /config
-	mkdir /config/usb_gadget/g1 0770 shell shell
-	write /config/usb_gadget/g1/bcdUSB 0x0200
-	mkdir /config/usb_gadget/g1/functions/ffs.mtp
+    mkdir /config
+    mount configfs none /config
+    mkdir /config/usb_gadget/g1 0770 shell shell
+    write /config/usb_gadget/g1/bcdUSB 0x0200
+    mkdir /config/usb_gadget/g1/functions/ffs.mtp
 
-	write /config/usb_gadget/g1/configs/b.1/MaxPower 900
+    write /config/usb_gadget/g1/configs/b.1/MaxPower 900
 
-	setprop sys.usb.mtp.device_type 3
-	setprop sys.usb.mtp.batchcancel 1
-	setprop sys.usb.configfs 1
+    setprop sys.usb.mtp.device_type 3
+    setprop sys.usb.mtp.batchcancel 1
+    setprop sys.usb.configfs 1
 
 on post-fs
-	mkdir /dev/usb-ffs/mtp 0770 mtp mtp
-	mount functionfs mtp /dev/usb-ffs/mtp rmode=0770,fmode=0660,uid=1024,gid=1024,no_disconnect=1
-	mount functionfs adb /dev/usb-ffs/adb rmode=0770,fmode=0660,uid=2000,gid=1000,no_disconnect=1
+    mkdir /dev/usb-ffs/mtp 0770 mtp mtp
+    mount functionfs mtp /dev/usb-ffs/mtp rmode=0770,fmode=0660,uid=1024,gid=1024,no_disconnect=1
 
 on property:sys.usb.config=none && property:sys.usb.configfs=1
-	rm /config/usb_gadget/g1/configs/b.1/f1
-	rm /config/usb_gadget/g1/configs/b.1/f2
+    rm /config/usb_gadget/g1/configs/b.1/f1
+    rm /config/usb_gadget/g1/configs/b.1/f2
 
 on property:init.svc.adbd=stopped
-	setprop sys.usb.ffs.ready 0
+    setprop sys.usb.ffs.ready 0
 
 on property:sys.usb.config=mtp && property:sys.usb.configfs=1
-	start adbd
+    start adbd
 
 on property:sys.usb.config=mtp,adb && property:sys.usb.configfs=1
-	start adbd
-
-on property:sys.usb.ffs.ready=1 && property:sys.usb.config=adb && property:sys.usb.configfs=1
-	write /config/usb_gadget/g1/idProduct 0xD001
-	write /config/usb_gadget/g1/iManufacturer ${ro.product.manufacturer}
-	write /config/usb_gadget/g1/iSerial ${ro.serialno}
-	write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "adb"
-	symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f1
-	write /config/usb_gadget/g1/UDC ${sys.usb.controller}
-	setprop sys.usb.state ${sys.usb.config}
+    start adbd
 
 on property:sys.usb.ffs.ready=1 && property:sys.usb.config=mtp && property:sys.usb.configfs=1
-	#write /config/usb_gadget/g1/idProduct 0xFF40 # lenovo
-	write /config/usb_gadget/g1/idProduct 0x4EE1
-	write /config/usb_gadget/g1/iManufacturer ${ro.product.manufacturer}
-	write /config/usb_gadget/g1/iSerial ${ro.serialno}
-	write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "mtp"
-	symlink /config/usb_gadget/g1/functions/ffs.mtp /config/usb_gadget/g1/configs/b.1/f1
-	write /config/usb_gadget/g1/UDC ${sys.usb.controller}
-	setprop sys.usb.state ${sys.usb.config}
+    write /config/usb_gadget/g1/idProduct 0x4EE1
+    symlink /config/usb_gadget/g1/functions/ffs.mtp /config/usb_gadget/g1/configs/b.1/f1
+    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+    setprop sys.usb.state ${sys.usb.config}
 
 on property:sys.usb.ffs.ready=1 && property:sys.usb.config=mtp,adb && property:sys.usb.configfs=1
-	#write /config/usb_gadget/g1/idProduct 0xFF48 # lenovo
-	write /config/usb_gadget/g1/idProduct 0x4EE2
-	write /config/usb_gadget/g1/iManufacturer ${ro.product.manufacturer}
-	write /config/usb_gadget/g1/iSerial ${ro.serialno}
-	write /config/usb_gadget/g1/configs/b.1/strings/0x409/configuration "mtp,adb"
-	symlink /config/usb_gadget/g1/functions/ffs.mtp /config/usb_gadget/g1/configs/b.1/f1
-	symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f2
-	write /config/usb_gadget/g1/UDC ${sys.usb.controller}
-	setprop sys.usb.state ${sys.usb.config}
+    write /config/usb_gadget/g1/idProduct 0x4EE2
+    symlink /config/usb_gadget/g1/functions/ffs.mtp /config/usb_gadget/g1/configs/b.1/f1
+    symlink /config/usb_gadget/g1/functions/ffs.adb /config/usb_gadget/g1/configs/b.1/f2
+    write /config/usb_gadget/g1/UDC ${sys.usb.controller}
+    setprop sys.usb.state ${sys.usb.config}
 

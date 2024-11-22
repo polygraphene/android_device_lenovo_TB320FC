@@ -128,13 +128,11 @@ ifeq ($(USE_LANDSCAPE),true)
 	RECOVERY_TOUCHSCREEN_SWAP_XY := true
 	TW_THEME := landscape_hdpi
 	TW_ROTATION := 90
-#	DEVICE_RESOLUTION := 2560x1600
 else
 	RECOVERY_TOUCHSCREEN_FLIP_Y := false
 	RECOVERY_TOUCHSCREEN_SWAP_XY := false
 	TW_THEME := portrait_hdpi
 	TW_ROTATION := 0
-#	DEVICE_RESOLUTION := 1600x2560
 endif
 TW_EXTRA_LANGUAGES := true
 TW_INPUT_BLACKLIST := "hbtp_vm"
@@ -148,26 +146,12 @@ TW_NO_EXFAT_FUSE := true
 TW_DEFAULT_BRIGHTNESS := 100
 TW_HAS_EDL_MODE := true
 TW_SKIP_ADDITIONAL_FSTAB := true
-
 TW_NO_HAPTICS := true
-#tests
-#TW_LOAD_VENDOR_MODULES := "haptic.ko"
-#TW_LOAD_VENDOR_MODULES += \
-#	vendor.display.config@2.0
-#TW_SUPPORT_INPUT_AIDL_HAPTICS ⏩ Установите "true", чтобы включить создание makefile для определенного оборудования.
-#TW_SUPPORT_INPUT_AIDL_HAPTICS_FQNAME ⏩ Введите правильный путь к данному оборудованию, и это позволит скомпилировать необходимые файлы. В данном случае это файлы для тактильных вибраторов.
-#* В зависимости от типа оборудования опция может поддерживаться в режиме AIDL (hal format=" aidl ") или в режиме HIDL (hal format="hidl").
-#Пример
-#TW_SUPPORT_INPUT_1_2_HAPTICS := true
-
 TW_CUSTOM_CPU_TEMP_PATH := /sys/devices/virtual/thermal/thermal_zone41/temp
 
 TW_MTP_DEVICE := /dev/usb-ffs/mtp
 TW_EXCLUDE_TWRPAPP := true
-#TW_USE_MODEL_HARDWARE_ID_FOR_DEVICE_ID := true
 TW_USE_SERIALNO_PROPERTY_FOR_DEVICE_ID := true
-#TW_FORCE_CPUINFO_FOR_DEVICE_ID := true
-
 # TWRP Debug Flags
 TARGET_USES_LOGD := true
 TW_CRYPTO_SYSTEM_VOLD_DEBUG := true

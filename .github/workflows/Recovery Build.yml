@@ -9,7 +9,7 @@ on:
 env:
   MANIFEST_URL: https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp
   MANIFEST_BRANCH: twrp-12.1
-  DEVICE_TREE_URL: https://github.com/lddnsk/android_device_lenovo_TB320FC
+  DEVICE_TREE_URL: https://github.com/polygraphene/android_device_lenovo_TB320FC
   DEVICE_TREE_BRANCH: android-12.1
   DEVICE_PATH: device/lenovo/TB320FC
   DEVICE_NAME: TB320FC
@@ -78,8 +78,8 @@ jobs:
         mkdir workspace
         cd workspace
         echo "workspace-folder=$(pwd)" >> $GITHUB_OUTPUT
-        git config --global user.name "lddnsk"
-        git config --global user.email "lddnsk@gmail.com"
+        git config --global user.name "polygraphene"
+        git config --global user.email "polygraphene@gmail.com"
         repo init --depth=1 -u ${MANIFEST_URL} -b ${MANIFEST_BRANCH}
       id: pwd
           
@@ -171,5 +171,5 @@ jobs:
           Output: ${{ steps.version.outputs.OUTPUT_FILEBASE }}-portrait.img
           Output: ${{ steps.version.outputs.OUTPUT_FILEBASE }}-landscape.img
       env:
-        GITHUB_TOKEN: ${{ secrets.TWRP_SECRET }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
