@@ -17,7 +17,7 @@ odm                 /odm         ext4        ro,barrier=1,discard               
 
 # Direct image flashing
 /system_image       emmc         /dev/block/bootdevice/by-name/system            flags=backup=1;flashimg=1
-/system_ext_image   emmc         /dev/block/bootdevice/by-name/system_ext        flags=backup=1;flashimg=1;display="System_ext Image"
+/system_ext_image   emmc         /dev/block/bootdevice/by-name/system_ext        flags=backup=1;flashimg=1;display="System_EXT Image"
 /odm_image          emmc         /dev/block/bootdevice/by-name/odm               flags=backup=1;flashimg=1;display="ODM Image"
 /product_image      emmc         /dev/block/bootdevice/by-name/product           flags=backup=1;flashimg=1;display="Product Image"
 /vendor_image       emmc         /dev/block/bootdevice/by-name/vendor            flags=backup=1;flashimg=1
