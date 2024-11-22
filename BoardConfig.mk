@@ -19,6 +19,7 @@ AB_OTA_PARTITIONS += \
     system_ext \
     product \
     vendor \
+    vendor_boot \
     odm \
     recovery
 BOARD_USES_RECOVERY_AS_BOOT := false
@@ -46,7 +47,7 @@ TARGET_BOOTLOADER_BOARD_NAME := taro
 TARGET_NO_BOOTLOADER := true
 
 # Display
-TARGET_SCREEN_DENSITY := 160
+TARGET_SCREEN_DENSITY := 400
 
 # Kernel
 BOARD_BOOTIMG_HEADER_VERSION := 4
@@ -106,7 +107,7 @@ TARGET_RECOVERY_DEVICE_MODULES += \
 	vendor.display.config@2.0
 
 # Security patch level
-VENDOR_SECURITY_PATCH := 2021-08-01
+#VENDOR_SECURITY_PATCH := 2021-08-01
 
 # Hack: prevent anti rollback
 PLATFORM_SECURITY_PATCH := 2099-12-31
@@ -140,13 +141,17 @@ TW_USE_FSCRYPT_POLICY := 1
 TW_INCLUDE_CRYPTO := true
 TW_INCLUDE_FASTBOOTD := true
 TW_EXCLUDE_APEX := true
-TW_EXCLUDE_DEFAULT_USB_INIT := true
+#TW_EXCLUDE_DEFAULT_USB_INIT := true
 TW_NO_EXFAT_FUSE := true
 TW_DEFAULT_BRIGHTNESS := 100
 TW_HAS_EDL_MODE := true
 TW_SKIP_ADDITIONAL_FSTAB := true
 TW_NO_HAPTICS := true
 TW_CUSTOM_CPU_TEMP_PATH := /sys/devices/virtual/thermal/thermal_zone41/temp
+
+TW_MTP_DEVICE := /dev/usb-ffs/mtp
+TW_EXCLUDE_TWRPAPP := true
+TW_USE_SERIALNO_PROPERTY_FOR_DEVICE_ID := true
 
 # TWRP Debug Flags
 TARGET_USES_LOGD := true
