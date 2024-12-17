@@ -91,7 +91,7 @@ jobs:
     - name: Apply patches
       run: |
         cd bootable/recovery
-        git fetch https://gerrit.twrp.me/android_bootable_recovery refs/changes/83/7683/1 && git checkout FETCH_HEAD
+        git fetch https://github.com/polygraphene/android_bootable_recovery fixtheme && git checkout FETCH_HEAD
       working-directory: workspace
 
     - name: Clone device tree
