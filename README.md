@@ -2,6 +2,8 @@
 
 8.8 inch a high-end tablet released on 2023.
 
+See https://github.com/polygraphene/android_device_lenovo_TB321FU for Y700 2025.
+
 ## Flash instruction
   Make sure your device is a CN/Global/JP version of Y700 (2023) before proceeding.
 
