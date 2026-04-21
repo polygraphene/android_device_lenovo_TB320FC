@@ -1,8 +1,10 @@
-# TWRP device tree for Lenovo Legion Y700 (2023) (TB320FC)
+# TWRP device tree for Lenovo Legion Y700 gen2 (2023) (TB320FC)
 
 8.8 inch a high-end tablet released on 2023.
 
-See https://github.com/polygraphene/android_device_lenovo_TB321FU for Y700 2025.
+## Other devices
+- [Y700 gen3 (2025)](https://github.com/polygraphene/android_device_lenovo_TB321FU)
+- [Y700 gen4](https://github.com/polygraphene/android_device_lenovo_TB322FC)
 
 ## Flash instruction
   Make sure your device is a CN/Global/JP version of Y700 (2023) before proceeding.
